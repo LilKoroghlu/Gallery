@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DbGalleryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="FileCategoryTbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="categoryName" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="FileTbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fileName" Type="nvarchar" MaxLength="30" />
+          <Property Name="fileSize" Type="nvarchar" MaxLength="10" />
+          <Property Name="fileExtention" Type="nvarchar" MaxLength="10" />
+          <Property Name="fileAddDate" Type="datetime" />
+          <Property Name="fileLocation" Type="nvarchar" MaxLength="100" />
+          <Property Name="fileCategoryId" Type="int" />
+        </EntityType>
+        <Association Name="FK__FileTbl__fileCat__3A81B327">
+          <End Role="FileCategoryTbl" Type="Self.FileCategoryTbl" Multiplicity="0..1" />
+          <End Role="FileTbl" Type="Self.FileTbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FileCategoryTbl">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="FileTbl">
+              <PropertyRef Name="fileCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbGalleryModelStoreContainer">
+          <EntitySet Name="FileCategoryTbl" EntityType="Self.FileCategoryTbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FileTbl" EntityType="Self.FileTbl" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__FileTbl__fileCat__3A81B327" Association="Self.FK__FileTbl__fileCat__3A81B327">
+            <End Role="FileCategoryTbl" EntitySet="FileCategoryTbl" />
+            <End Role="FileTbl" EntitySet="FileTbl" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DbGalleryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="FileCategoryTbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FileTbls" Relationship="Self.FK__FileTbl__fileCat__3A81B327" FromRole="FileCategoryTbl" ToRole="FileTbl" />
+        </EntityType>
+        <EntityType Name="FileTbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fileName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="fileSize" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="fileExtention" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="fileAddDate" Type="DateTime" Precision="3" />
+          <Property Name="fileLocation" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="fileCategoryId" Type="Int32" />
+          <NavigationProperty Name="FileCategoryTbl" Relationship="Self.FK__FileTbl__fileCat__3A81B327" FromRole="FileTbl" ToRole="FileCategoryTbl" />
+        </EntityType>
+        <Association Name="FK__FileTbl__fileCat__3A81B327">
+          <End Role="FileCategoryTbl" Type="Self.FileCategoryTbl" Multiplicity="0..1" />
+          <End Role="FileTbl" Type="Self.FileTbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FileCategoryTbl">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="FileTbl">
+              <PropertyRef Name="fileCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbGalleryEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="FileCategoryTbls" EntityType="Self.FileCategoryTbl" />
+          <EntitySet Name="FileTbls" EntityType="Self.FileTbl" />
+          <AssociationSet Name="FK__FileTbl__fileCat__3A81B327" Association="Self.FK__FileTbl__fileCat__3A81B327">
+            <End Role="FileCategoryTbl" EntitySet="FileCategoryTbls" />
+            <End Role="FileTbl" EntitySet="FileTbls" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DbGalleryModelStoreContainer" CdmEntityContainer="DbGalleryEntities">
+          <EntitySetMapping Name="FileCategoryTbls">
+            <EntityTypeMapping TypeName="DbGalleryModel.FileCategoryTbl">
+              <MappingFragment StoreEntitySet="FileCategoryTbl">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="categoryName" ColumnName="categoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FileTbls">
+            <EntityTypeMapping TypeName="DbGalleryModel.FileTbl">
+              <MappingFragment StoreEntitySet="FileTbl">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="fileName" ColumnName="fileName" />
+                <ScalarProperty Name="fileSize" ColumnName="fileSize" />
+                <ScalarProperty Name="fileExtention" ColumnName="fileExtention" />
+                <ScalarProperty Name="fileAddDate" ColumnName="fileAddDate" />
+                <ScalarProperty Name="fileLocation" ColumnName="fileLocation" />
+                <ScalarProperty Name="fileCategoryId" ColumnName="fileCategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
