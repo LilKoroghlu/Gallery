@@ -45,62 +45,52 @@ namespace Gallery
                 db.SaveChanges();
             }
             */
-            int x = 10;
-            int y = 100;
             int buttonHeight = 30;
             int buttonWidth = 100;
             MaterialButton allImagesButton = new MaterialButton()
             {
                 Text = "All images",
-                Location = new Point(x, y),
-                Height = buttonHeight,
-                Width = buttonWidth
+                Location = new Point(30, 100)
             };
-            x += 100;
             allImagesButton.Click += new EventHandler(allImagesButton_Click);
             MaterialButton natureButton = new MaterialButton()
             {
                 Text = "Nature",
-                Location = new Point(x, y),
-                Height = buttonHeight,
-                Width = buttonWidth
+                Location = new Point(140, 100)
             };
-            x += 100;
             natureButton.Click += new EventHandler(natureButton_Click);
             MaterialButton humanButton = new MaterialButton()
             {
                 Text = "Human",
-                Location = new Point(x, y),
+                Location = new Point(225, 100),
                 Height = buttonHeight,
                 Width = buttonWidth
             };
-            x += 100;
             MaterialButton technologyButton = new MaterialButton()
             {
                 Text = "Technology",
-                Location = new Point(x, y),
+                Location = new Point(305, 100),
                 Height = buttonHeight,
                 Width = buttonWidth
             };
-            x += 100;
             MaterialButton abstractButton = new MaterialButton()
             {
                 Text = "Abstract",
-                Location = new Point(x, y),
+                Location = new Point(430, 100),
                 Height = buttonHeight,
                 Width = buttonWidth
             };
             MaterialButton newImageButton = new MaterialButton()
             {
                 Text = "New Image",
-                Location = new Point(this.Width - buttonWidth - 30, y),
+                Location = new Point(this.Width - buttonWidth - 30, 100),
                 Height = buttonHeight,
                 Width = buttonWidth
             };
             
             MaterialComboBox comboBox = new MaterialComboBox()
             {
-                Location = new Point(this.Width - 300, y),
+                Location = new Point(this.Width - 300, 100),
                 Height = buttonHeight,
                 Width = 160
             };
