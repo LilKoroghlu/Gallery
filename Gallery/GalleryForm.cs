@@ -17,6 +17,7 @@ namespace Gallery
         readonly MaterialSkin.MaterialSkinManager materialSkinManager;
         public PictureBox pictureBox = new PictureBox();
         public DbGalleryEntities db = new DbGalleryEntities();
+        public string _comboVal = "Nature";
         public GalleryForm()
         {
             InitializeComponent();
@@ -39,10 +40,10 @@ namespace Gallery
             /*
             for (int i = 0; i < categories.Count; i++)
             {
-                FileCategoryTbl fileCategoryTbl = new FileCategoryTbl();
-                fileCategoryTbl.categoryName = categories[i];
-                db.FileCategoryTbls.Add(fileCategoryTbl);
-                db.SaveChanges();
+                    FileCategoryTbl fileCategoryTbl = new FileCategoryTbl();
+                    fileCategoryTbl.categoryName = categories[i];
+                    db.FileCategoryTbls.Add(fileCategoryTbl);
+                    db.SaveChanges();
             }
             */
             int buttonHeight = 30;
@@ -94,6 +95,7 @@ namespace Gallery
                 Height = buttonHeight,
                 Width = 160
             };
+            comboBox.SelectedValueChanged += new EventHandler(comboBox_SelectedValueChanged);
             comboBox.DataSource = categories;
             newImageButton.Click += new EventHandler(newImageButton_Click);
             this.Controls.Add(allImagesButton);
@@ -103,6 +105,36 @@ namespace Gallery
             this.Controls.Add(abstractButton);
             this.Controls.Add(newImageButton);
             this.Controls.Add(comboBox);
+        }
+        public void comboBox_SelectedValueChanged(object sender, EventArgs e)
+        {
+            var cb = sender as ComboBox;
+            _comboVal = cb.Text;
+        }
+
+        //  Test
+        public void removePicture_Click(object sender, EventArgs e)
+        {
+            
+            var pictures = sender as PictureBox;
+            string message = "Do you want to remove picture";
+            string caption = "Delete";
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            DialogResult result;
+            result = MessageBox.Show(message, caption, buttons);
+            if(result == DialogResult.Yes)
+            {
+                /*
+                var file = pictures.ImageLocation;
+                using (var s = new FileStream(file, FileMode.Open))
+                {
+                    pictures.Image = Image.FromStream(s);
+                }
+                File.Delete(file);
+                */
+                MessageBox.Show("Deleted");
+            }
+            
         }
         public void allImagesButton_Click(object sender, EventArgs e)
         {
@@ -120,6 +152,7 @@ namespace Gallery
                 pictures.SizeMode = PictureBoxSizeMode.StretchImage;
                 pictures.Height = 100;
                 pictures.Width = 100;
+                pictures.Click += new EventHandler(removePicture_Click);
                 x += 110;
                 this.Controls.Add(pictures);
             }
@@ -133,17 +166,18 @@ namespace Gallery
             }
             int x = 10;
             int y = 200;
-            List<string> fileNames = Directory.GetFiles(@"..\..\Images", "*", SearchOption.TopDirectoryOnly).ToList();
-            for (int i = 0; i < Directory.GetFiles(@"..\..\Images", "*", SearchOption.TopDirectoryOnly).Length; i++)
+            foreach (var item in db.FileTbls)
             {
-                PictureBox pictures = new PictureBox();
-                pictures.Image = Image.FromFile(Directory.GetFiles(@"..\..\Images", "*", SearchOption.TopDirectoryOnly)[i]);
-                pictures.Location = new Point(x, y);
-                pictures.SizeMode = PictureBoxSizeMode.StretchImage;
-                pictures.Height = 100;
-                pictures.Width = 100;
-                x += 110;
-                this.Controls.Add(pictures);
+                if (item.fileCategoryId == 1)
+                {
+                    PictureBox naturePictureBox = new PictureBox();
+                    naturePictureBox.Image = Image.FromFile(item.fileLocation);
+                    naturePictureBox.Location = new Point(x, y);
+                    naturePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                    naturePictureBox.Height = 100;
+                    naturePictureBox.Width = 100;
+                    this.Controls.Add(naturePictureBox);
+                }
             }
         }
         public void newImageButton_Click(object sender, EventArgs e)
@@ -165,9 +199,12 @@ namespace Gallery
                 fileTbl.fileExtention = Path.GetExtension(open.SafeFileName);
                 fileTbl.fileAddDate = DateTime.Now;
                 fileTbl.fileLocation = Path.GetDirectoryName(open.FileName);
-                ComboBox comboBox = this.Controls[6] as ComboBox;
                 FileCategoryTbl fileCategoryTbl = new FileCategoryTbl();
-                fileTbl.fileCategoryId = fileCategoryTbl.categoryName.CompareTo(comboBox.SelectedValue);
+                foreach (var item in db.FileCategoryTbls)
+                {
+                    if (item.categoryName == _comboVal)
+                        fileCategoryTbl.id = item.id;
+                }
                 db.FileTbls.Add(fileTbl);
                 db.SaveChanges();
                 */
